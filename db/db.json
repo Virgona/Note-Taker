@@ -1,6 +1,11 @@
 [
     {
-        "title":"Test Title",
-        "text":"Test text"
+        "title": "Test Title",
+        "text": "Test text"
+    },
+    {
+        "title": "Buy Shoes",
+        "text": "smell shoes after purchase",
+        "note_id": "1ee4db0b-f275-4cb2-9612-c7c659d3f8c9"
     }
 ]

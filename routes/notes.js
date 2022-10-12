@@ -6,14 +6,28 @@ const { readFromFile, readAndAppend } = require('../helper/fsUtils');
 
 // GET Route for retrieving notes
 notes.get('/', (req, res) => {
-    readFromFile('../db/db.json').then((data) => res.json(JSON.parse(data)));
-    console.log(data);
+    readFromFile('db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
 // // POST Route for a new UX/UI tip
-// notes.post('/', (req, res) => {
-//     console.log(req.body);
+notes.post('/', (req, res) => {
+    console.log(req.body);
+    const { title, text } = req.body;
 
+    if (req.body) {
+        const newNote = {
+            title,
+            text,
+            note_id: uuidv4(),
+        };
+
+        readAndAppend(newNote, 'db/db.json');
+        res.json('note added successfully!');
+
+    } else {
+        res.errored('Error adding note :(');
+    }
+});
 //     // get the data from the request body
 //     const uId = uuidv4();
 //     console.log(uId)
