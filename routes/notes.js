@@ -1,6 +1,7 @@
 const notes = require('express').Router();
 const { v4: uuidv4 } = require('uuid');
 const { readFromFile, readAndAppend } = require('../helper/fsUtils');
+const fs = require('fs');
 
 
 
@@ -9,7 +10,7 @@ notes.get('/', (req, res) => {
     readFromFile('db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
-// // POST Route for a new UX/UI tip
+// POST Route for a new note added to UI
 notes.post('/', (req, res) => {
     console.log(req.body);
     const { title, text } = req.body;
@@ -18,7 +19,7 @@ notes.post('/', (req, res) => {
         const newNote = {
             title,
             text,
-            note_id: uuidv4(),
+            id: uuidv4(),
         };
 
         readAndAppend(newNote, 'db/db.json');
@@ -28,16 +29,17 @@ notes.post('/', (req, res) => {
         res.errored('Error adding note :(');
     }
 });
-//     // get the data from the request body
-//     const uId = uuidv4();
-//     console.log(uId)
-//     // add an id property to that data obj
-//     // "add that data prop to the db.json"
-//     // get the data from db.json
-//     // parse it
-//     // add the new notes
-//     // write it back to the file
-//     // send the user a copy of the new note
-// });
+
+notes.delete('/:id', (req, res) => {
+    let { id } = req.params.id;
+    notes.findByIdAndDelete(id)
+        .then(result => {
+            res.json({ redirect: '/' })
+        })
+        .catch(err => {
+            console.error(err);
+        })
+});
+
 
 module.exports = notes;
