@@ -29,7 +29,7 @@ notes.post('/', (req, res) => {
         res.errored('Error adding note :(');
     }
 });
-
+// function to delete selected notes on the front end
 notes.delete('/:id', (req, res) => {
     readFromFile('db/db.json')
         .then((data) => {
